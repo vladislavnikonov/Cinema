@@ -1,0 +1,1 @@
+insert into cinema_films(title, release_year, age_restrictions) values ('sfd', '34', '435')
