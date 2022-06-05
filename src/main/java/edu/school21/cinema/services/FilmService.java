@@ -14,5 +14,5 @@ public interface FilmService {
 
     void updateFilm(SaveFilm saveFilm);
 
-    List<Film> getAll();
+    List<Film> findAll();
 }

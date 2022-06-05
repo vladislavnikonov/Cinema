@@ -69,6 +69,11 @@ public class FilmServiceImpl implements FilmService {
         }
     }
 
+    @Override
+    public List<Film> findAll() {
+        return filmRepository.findAll();
+    }
+
     private void upload(byte[] resource, String keyName, String title) throws IOException {
         if (!Files.exists(Paths.get(imagesPath + title))) {
             if (!Files.exists(Paths.get(imagesPath))) {
@@ -76,10 +81,5 @@ public class FilmServiceImpl implements FilmService {
             }
             //add upload photo to disk
         }
-    }
-
-    @Override
-    public List<Film> getAll() {
-        return null;
     }
 }

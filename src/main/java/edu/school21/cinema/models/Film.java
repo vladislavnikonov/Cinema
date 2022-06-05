@@ -14,7 +14,7 @@ public class Film {
     @Column(name = "release_year")
     private Integer releaseYear;
     @Column(name = "age_restrictions")
-    private Integer ageRestriction;
+    private Integer ageRegistration;
     @Column(name = "description")
     private String description;
     @Column(name = "poster")
@@ -23,10 +23,10 @@ public class Film {
     public Film() {
     }
 
-    public Film(String title, Integer releaseYear, Integer ageRestriction, String description, String poster) {
+    public Film(String title, Integer releaseYear, Integer ageRegistration, String description, String poster) {
         this.title = title;
         this.releaseYear = releaseYear;
-        this.ageRestriction = ageRestriction;
+        this.ageRegistration = ageRegistration;
         this.description = description;
         this.poster = poster;
     }
@@ -55,12 +55,12 @@ public class Film {
         this.releaseYear = releaseYear;
     }
 
-    public Integer getAgeRestriction() {
-        return ageRestriction;
+    public Integer getAgeRegistration() {
+        return ageRegistration;
     }
 
-    public void setAgeRestriction(Integer ageRestriction) {
-        this.ageRestriction = ageRestriction;
+    public void setAgeRegistration(Integer ageRegistration) {
+        this.ageRegistration = ageRegistration;
     }
 
     public String getDescription() {

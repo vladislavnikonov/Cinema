@@ -46,13 +46,6 @@ public class SpringConfiguration {
     @Value("${storage.path}")
     private String pathToImagesFolder;
 
-//    @Bean
-//    public FreeMarkerConfigurer freeMarkerConfigurer() {
-//        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-//        freeMarkerConfigurer.setTemplateLoaderPath("/WEB_INF/jsp/");
-//        return freeMarkerConfigurer;
-//    }
-
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
@@ -68,15 +61,6 @@ public class SpringConfiguration {
         resolver.setSuffix(".ftl");
         return resolver;
     }
-
-//    @Bean
-//    public ViewResolver viewResolver() {
-//        FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
-//        freeMarkerViewResolver.setCache(true);
-//        freeMarkerViewResolver.setPrefix("");
-//        freeMarkerViewResolver.setSuffix(".ftl");
-//        return freeMarkerViewResolver;
-//    }
 
 /*    @Bean
     public DataSource dataSource() {
@@ -109,7 +93,6 @@ public class SpringConfiguration {
         entityManagerFactory.setPackagesToScan("edu.school21.cinema.models");
         entityManagerFactory.setJpaProperties(hibernateProperties());
         entityManagerFactory.setJpaVendorAdapter(createJpaVendorAdapter());
-
         entityManagerFactory.afterPropertiesSet();
         return entityManagerFactory;
     }

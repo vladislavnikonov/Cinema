@@ -18,7 +18,7 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     @Transactional
     public List<Session> findAll() {
-        return entityManager.createQuery("FROM Session", Session.class).getResultList();
+        return entityManager.createQuery("from Session", Session.class).getResultList();
     }
 
     @Override

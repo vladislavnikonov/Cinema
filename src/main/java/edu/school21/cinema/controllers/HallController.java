@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin/panel")
 public class HallController {
 
     private final HallRepository hallRepository;
@@ -22,29 +21,28 @@ public class HallController {
         this.hallRepository = hallRepository;
     }
 
-    @RequestMapping(value = "/admin/panel/halls", method = RequestMethod.GET)
+    @GetMapping(value = "/halls")
     public String showAllHalls(Model model) {
         List<Hall> halls = hallRepository.findAll();
         model.addAttribute("halls", halls);
         return "halls";
     }
 
-    @RequestMapping(value = "/admin/panel/addNewHall", method = RequestMethod.GET)
-    public String addNewHall(Model model) {
+    @GetMapping(value = "/addHall")
+    public String addHall(Model model) {
         Hall hall = new Hall();
         model.addAttribute("hall", hall);
-
         return "addHall";
     }
 
-    @RequestMapping(value = "/admin/panel/saveNewHall", method = RequestMethod.POST)
-    public String saveNewHall(Model model, @ModelAttribute("hall") Hall hall) {
+    @PostMapping(value = "/saveHall")
+    public String saveHall(Model model, @ModelAttribute("hall") Hall hall) {
         if (hall == null || hall.getSerialNumber() == null || hall.getSeatsNumber() == null) {
-            model.addAttribute("errorMessage", "Please enter all data");
+            model.addAttribute("error", "Please enter all data");
             return "addHall";
-        } else if (hallRepository.getFromSerialNumber(hall.getSerialNumber()) != null) {
-            model.addAttribute("errorMessage", "A hall with this number already exists");
-            return "addhall";
+        } else if (hallRepository.getBySerialNumber(hall.getSerialNumber()) != null) {
+            model.addAttribute("error", "A hall with this number already exists");
+            return "addHall";
         } else {
             hallRepository.save(hall);
         }

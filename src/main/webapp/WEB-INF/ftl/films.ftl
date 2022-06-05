@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Films</title>
 </head>
 <body>
 <h1>Films</h1>
@@ -17,25 +17,25 @@
         </tr>
 
         <#list films as film>
-            <form name="film" action="/admin/panel/addPoster" method="post">
+<#--            <form name="film" action="/admin/panel/addPoster" method="post">-->
                 <tr>
                     <td>${film.title}</td>
                     <td>${film.releaseYear}</td>
                     <td>${film.ageRegistration}</td>
                     <td>${film.description}</td>
                     <td>${film.poster}</td>
-                    <td>
-                        <input type="hidden" value="${film.title}" name="title">
-                        <input type="submit" value="Add Poster"}/>
-                    </td>
+<#--                    <td>-->
+<#--                        <input type="hidden" value="${film.title}" name="title">-->
+<#--                        <input type="submit" value="Add Poster"}/>-->
+<#--                    </td>-->
                 </tr>
-            </form>
+<#--            </form>-->
         </#list>
     </table>
 </div>
 <br>
 <br>
-<input type="button" value="Add new File"
-       onclick="window.location.href = '/admin/panel/addNewFile'"/>
+<input type="button" value="Add new Film"
+       onclick="window.location.href = '/cinema/admin/panel/addFilm'"/>
 </body>
 </html>

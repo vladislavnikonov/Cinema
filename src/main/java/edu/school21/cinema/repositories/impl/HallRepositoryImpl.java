@@ -1,10 +1,12 @@
 package edu.school21.cinema.repositories.impl;
 
+import edu.school21.cinema.models.Film;
 import edu.school21.cinema.models.Hall;
 import edu.school21.cinema.repositories.HallRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,21 +19,29 @@ public class HallRepositoryImpl implements HallRepository {
     @Override
     @Transactional
     public List<Hall> findAll() {
-        return entityManager.createQuery("FROM Hall", Hall.class).getResultList();
+        return entityManager.createQuery("from Hall", Hall.class).getResultList();
     }
 
     @Override
-    public Hall get(Long id) {
-        return null;
+    @Transactional
+    public Hall getById(Long id) {
+        return entityManager.find(Hall.class, id);
     }
 
     @Override
+    @Transactional
     public void save(Hall hall) {
-
+        entityManager.merge(hall);
     }
 
     @Override
-    public Integer getFromSerialNumber(Integer serialNumber) {
-        return null;
+    public Hall getBySerialNumber(Integer serialNumber) {
+        Hall hall = null;
+        try {
+            hall = entityManager.createQuery("from Hall where serialNumber = :serialNumber", Hall.class)
+                    .setParameter("serialNumber", serialNumber)
+                    .getSingleResult();
+        } catch (NoResultException ignored) {}
+        return hall;
     }
 }

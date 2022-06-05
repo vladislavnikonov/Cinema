@@ -36,7 +36,7 @@ public class SessionController {
     public String getSessionList(Model model) {
         model.addAttribute("sessions", sessionService.getAll());
         model.addAttribute("halls", hallService.getAll());
-        model.addAttribute("films", filmService.getAll());
+        model.addAttribute("films", filmService.findAll());
         return "session";
     }
 

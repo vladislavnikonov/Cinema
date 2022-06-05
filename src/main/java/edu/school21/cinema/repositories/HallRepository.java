@@ -8,9 +8,9 @@ import java.util.List;
 public interface HallRepository {
     List<Hall> findAll();
 
-    Hall get(Long id);
+    Hall getById(Long id);
 
     void save(Hall hall);
 
-    Integer getFromSerialNumber(Integer serialNumber);
+    Hall getBySerialNumber(Integer serialNumber);
 }

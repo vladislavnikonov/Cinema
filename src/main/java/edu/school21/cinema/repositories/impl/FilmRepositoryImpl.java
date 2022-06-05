@@ -23,7 +23,7 @@ public class FilmRepositoryImpl implements FilmRepository {
 
     @Override
     @Transactional
-    public Film get(Long id) {
+    public Film getById(Long id) {
         return entityManager.find(Film.class, id);
     }
 
@@ -37,7 +37,9 @@ public class FilmRepositoryImpl implements FilmRepository {
     public Film getByTitle(String title) {
         Film film = null;
         try {
-            film = entityManager.createQuery("FROM Film where =:title", Film.class).setParameter("title", title).getSingleResult();
+            film = entityManager.createQuery("from Film where title = :title", Film.class)
+                    .setParameter("title", title)
+                    .getSingleResult();
         } catch (NoResultException ignored) {}
         return film;
     }

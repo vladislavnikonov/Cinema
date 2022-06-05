@@ -43,6 +43,13 @@
                 </#list>
             </optgroup>
         </select>
+        <select name="selectedFilm">
+            <optgroup>
+                <#list films as film>
+                    <option value=${film.filmId}>${film.title}</option>
+                </#list>
+            </optgroup>
+        </select>
         <input name="ticketCost" type="number" value="0" required>
         <input name="sessionDate" type="datetime-local" required>
         <input type="submit" name="submit" value="submit">
