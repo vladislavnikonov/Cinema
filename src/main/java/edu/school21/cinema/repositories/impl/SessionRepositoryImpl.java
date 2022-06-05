@@ -5,8 +5,10 @@ import edu.school21.cinema.repositories.SessionRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -30,6 +32,19 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     @Transactional
     public void save(Session session) {
-        entityManager.persist(session);
+//        entityManager.persist(session);
+        entityManager.merge(session);
+    }
+
+    @Override
+    public Session getByHallIdAndSessionDate(Long hallId, Date sessionDate) {
+        Session session = null;
+        try {
+            session = entityManager.createQuery("from Session where hall.hallId = :hallId and sessionDate = :sessionDate", Session.class)
+                    .setParameter("hallId", hallId)
+                    .setParameter("sessionDate", sessionDate)
+                    .getSingleResult();
+        } catch (NoResultException ignored) {}
+        return session;
     }
 }

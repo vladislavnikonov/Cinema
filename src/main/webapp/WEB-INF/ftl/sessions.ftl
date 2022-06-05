@@ -5,14 +5,14 @@
     <title>Sessions</title>
 </head>
 <body>
+<#if error??>
+    <p>${error}</p>
+</#if>
 <div class="header">
     <h1>Sessions</h1>
 </div>
 <div>
     <table class="table">
-        <caption>
-            <h3>List of session</h3>
-        </caption>
         <thead>
             <tr>
                 <th>Hall</th>
@@ -27,15 +27,14 @@
                     <td>${session.hall.serialNumber}</td>
                     <td>${session.film.title}</td>
                     <td>${session.ticketCost}</td>
-                    <td>${session.date?datetime?string.short}</td>
+                    <td>${session.sessionDate?datetime?string.short}</td>
                 </tr>
             </#list>
         </tbody>
     </table>
 </div>
 <div>
-    <h3>Select hall, film and ticket cost for featuring session</h3>
-    <form action="/admin/panel/addSession" method="post">
+    <form action="/cinema/admin/panel/saveSession" method="post">
         <select name="selectedHall">
             <optgroup>
                 <#list halls as hall>
@@ -50,9 +49,9 @@
                 </#list>
             </optgroup>
         </select>
-        <input name="ticketCost" type="number" value="0" required>
+        <input name="ticketCost" type="number" value="500" required>
         <input name="sessionDate" type="datetime-local" required>
-        <input type="submit" name="submit" value="submit">
+        <input type="submit" value="Create session">
     </form>
 </div>
 </body>

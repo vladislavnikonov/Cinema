@@ -5,7 +5,8 @@ import edu.school21.cinema.models.Session;
 import java.util.List;
 
 public interface SessionService {
-    void save(Session session);
+
+    void save(Session session, Long filmId, Long hallId);
 
     List<Session> getAll();
 
