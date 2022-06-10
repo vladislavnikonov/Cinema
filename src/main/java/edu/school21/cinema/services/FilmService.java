@@ -1,10 +1,9 @@
 package edu.school21.cinema.services;
 
+import edu.school21.cinema.exceptions.NotAllDataException;
+import edu.school21.cinema.exceptions.ObjectAlreadyExistsException;
 import edu.school21.cinema.models.Film;
-import edu.school21.cinema.models.Hall;
 import edu.school21.cinema.models.SaveFilm;
-import exceptions.NotAllDataException;
-import exceptions.ObjectAlreadyExistsException;
 
 import java.util.List;
 
@@ -15,4 +14,6 @@ public interface FilmService {
     void updateFilm(SaveFilm saveFilm);
 
     List<Film> findAll();
+
+    boolean create(Film film);
 }

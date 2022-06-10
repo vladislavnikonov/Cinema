@@ -5,5 +5,8 @@ import edu.school21.cinema.models.Hall;
 import java.util.List;
 
 public interface HallService {
-    List<Hall> getAll();
+
+    List<Hall> findAll();
+
+    boolean create(Hall hall);
 }

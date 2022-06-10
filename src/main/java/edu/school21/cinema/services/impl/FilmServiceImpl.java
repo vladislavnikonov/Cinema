@@ -1,16 +1,15 @@
 package edu.school21.cinema.services.impl;
 
+import edu.school21.cinema.exceptions.NotAllDataException;
+import edu.school21.cinema.exceptions.ObjectAlreadyExistsException;
 import edu.school21.cinema.models.Film;
 import edu.school21.cinema.models.SaveFilm;
 import edu.school21.cinema.repositories.FilmRepository;
 import edu.school21.cinema.services.FilmService;
-import exceptions.NotAllDataException;
-import exceptions.ObjectAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,8 +19,8 @@ import java.util.UUID;
 @Service
 public class FilmServiceImpl implements FilmService {
 
-    private FilmRepository filmRepository;
-    private String imagesPath;
+    private final FilmRepository filmRepository;
+    private final String imagesPath;
 
     @Autowired
     public FilmServiceImpl(@Qualifier("filmRepositoryImpl") FilmRepository filmRepository,
@@ -29,7 +28,7 @@ public class FilmServiceImpl implements FilmService {
         this.filmRepository = filmRepository;
         this.imagesPath = imagesPath;
     }
-
+    //добавление фильма через savefilm
     @Override
     public void saveFilm(SaveFilm saveFilm) throws NotAllDataException, ObjectAlreadyExistsException {
         if (saveFilm == null || saveFilm.getTitle() == null
@@ -72,6 +71,15 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Film> findAll() {
         return filmRepository.findAll();
+    }
+
+    @Override
+    public boolean create(Film film) {
+        if (filmRepository.getByTitle(film.getTitle()) != null) {
+            return false;
+        }
+        filmRepository.save(film);
+        return true;
     }
 
     private void upload(byte[] resource, String keyName, String title) throws IOException {

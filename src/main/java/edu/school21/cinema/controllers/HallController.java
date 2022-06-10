@@ -1,12 +1,14 @@
 package edu.school21.cinema.controllers;
 
 import edu.school21.cinema.models.Hall;
-import edu.school21.cinema.repositories.HallRepository;
+import edu.school21.cinema.services.HallService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -14,16 +16,16 @@ import java.util.List;
 @RequestMapping("/admin/panel")
 public class HallController {
 
-    private final HallRepository hallRepository;
+    private final HallService hallService;
 
     @Autowired
-    public HallController(@Qualifier("hallRepositoryImpl") HallRepository hallRepository) {
-        this.hallRepository = hallRepository;
+    public HallController(HallService hallService) {
+        this.hallService = hallService;
     }
 
     @GetMapping(value = "/halls")
     public String showAllHalls(Model model) {
-        List<Hall> halls = hallRepository.findAll();
+        List<Hall> halls = hallService.findAll();
         model.addAttribute("halls", halls);
         return "halls";
     }
@@ -37,14 +39,9 @@ public class HallController {
 
     @PostMapping(value = "/saveHall")
     public String saveHall(Model model, @ModelAttribute("hall") Hall hall) {
-        if (hall == null || hall.getSerialNumber() == null || hall.getSeatsNumber() == null) {
-            model.addAttribute("error", "Please enter all data");
-            return "addHall";
-        } else if (hallRepository.getBySerialNumber(hall.getSerialNumber()) != null) {
+        if (!hallService.create(hall)) {
             model.addAttribute("error", "A hall with this number already exists");
             return "addHall";
-        } else {
-            hallRepository.save(hall);
         }
         return "redirect:/admin/panel/halls";
     }

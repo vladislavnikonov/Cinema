@@ -14,11 +14,9 @@ public class Session {
     private Integer ticketCost;
     @Column(name = "session_date")
     private Date sessionDate;
-//    @Column(name = "hall_id")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
     private Hall hall;
-//    @Column(name = "film_id")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "film_id", referencedColumnName = "id")
     private Film film;
@@ -32,6 +30,11 @@ public class Session {
         this.sessionDate = sessionDate;
         this.hall = hall;
         this.film = film;
+    }
+
+    public Session(Integer ticketCost, Date date) {
+        this.ticketCost = ticketCost;
+        this.sessionDate = date;
     }
 
     public Long getSessionId() {

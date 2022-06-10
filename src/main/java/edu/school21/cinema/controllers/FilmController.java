@@ -1,11 +1,14 @@
 package edu.school21.cinema.controllers;
 
 import edu.school21.cinema.models.Film;
-import edu.school21.cinema.repositories.FilmRepository;
+import edu.school21.cinema.services.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -13,16 +16,16 @@ import java.util.List;
 @RequestMapping("/admin/panel")
 public class FilmController {
 
-    private final FilmRepository filmRepository;
+    private final FilmService filmService;
 
     @Autowired
-    public FilmController(FilmRepository filmRepository) {
-        this.filmRepository = filmRepository;
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
     }
 
     @GetMapping(value = "/films")
     public String showAllFilms(Model model) {
-        List<Film> films = filmRepository.findAll();
+        List<Film> films = filmService.findAll();
         model.addAttribute("films", films);
         return "films";
     }
@@ -36,14 +39,9 @@ public class FilmController {
 
     @PostMapping(value = "/saveFilm")
     public String saveFilm(Model model, @ModelAttribute("film") Film film) {
-        if (film == null || film.getTitle() == null || film.getAgeRegistration() == null || film.getReleaseYear() == null) {
-            model.addAttribute("error", "Please enter all data");
-            return "addFilm";
-        } else if (filmRepository.getByTitle(film.getTitle()) != null) {
+        if (!filmService.create(film)) {
             model.addAttribute("error", "A film with this title already exists");
             return "addFilm";
-        } else {
-            filmRepository.save(film);
         }
         return "redirect:/admin/panel/films";
     }
