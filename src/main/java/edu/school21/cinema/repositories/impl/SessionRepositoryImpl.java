@@ -47,4 +47,14 @@ public class SessionRepositoryImpl implements SessionRepository {
         } catch (NoResultException ignored) {}
         return session;
     }
+
+    @Override
+    public List<Session> searchByRequest(String request) {
+        request = request + "%";
+        return entityManager.createQuery("select new Session(s.id, s.ticketCost, s.date, f)" +
+                "from Session s join Film f on s.film.filmId = f.filmId" +
+                "where f.title like :request", Session.class)
+                .setParameter("request", request)
+                .getResultList();
+    }
 }

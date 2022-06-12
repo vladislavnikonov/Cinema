@@ -15,17 +15,14 @@ import java.util.List;
 
 @Service
 public class SessionServiceImpl implements SessionService {
-
     private final SessionRepository sessionRepository;
     private final FilmRepository filmRepository;
     private final HallRepository hallRepository;
-//    private final SimpleDateFormat formatter;
 
     public SessionServiceImpl(@Qualifier("sessionRepositoryImpl") SessionRepository sessionRepository, FilmRepository filmRepository, HallRepository hallRepository) {
         this.sessionRepository = sessionRepository;
         this.filmRepository = filmRepository;
         this.hallRepository = hallRepository;
-//        this.formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     }
 
     @Override
@@ -53,9 +50,12 @@ public class SessionServiceImpl implements SessionService {
             return false;
         }
         Session session = new Session(ticketCost, date);
-//        session.setTicketCost(ticketCost);
-//        session.setSessionDate(date);
         save(session, filmId, hallId);
         return true;
+    }
+
+    @Override
+    public List<Session> searchByRequest(String request) {
+        return sessionRepository.searchByRequest(request);
     }
 }

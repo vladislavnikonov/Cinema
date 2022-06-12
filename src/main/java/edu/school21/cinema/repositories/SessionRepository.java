@@ -13,4 +13,6 @@ public interface SessionRepository {
     void save(Session session);
 
     Session getByHallIdAndSessionDate(Long hallId, Date sessionDate);
+
+    List<Session> searchByRequest(String request);
 }

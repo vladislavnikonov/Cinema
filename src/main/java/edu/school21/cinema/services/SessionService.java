@@ -14,4 +14,6 @@ public interface SessionService {
     Session get(Long id);
 
     boolean create(Long filmId, Long hallId, Integer ticketCost, String sessionDate) throws ParseException;
+
+    List<Session> searchByRequest(String request);
 }

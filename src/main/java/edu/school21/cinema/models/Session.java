@@ -14,10 +14,10 @@ public class Session {
     private Integer ticketCost;
     @Column(name = "session_date")
     private Date sessionDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
     private Hall hall;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "film_id", referencedColumnName = "id")
     private Film film;
 
