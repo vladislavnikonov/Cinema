@@ -32,6 +32,13 @@ public class Session {
         this.film = film;
     }
 
+    public Session(Long sessionId, Integer ticketCost, Date sessionDate, Film film) {
+        this.sessionId = sessionId;
+        this.ticketCost = ticketCost;
+        this.sessionDate = sessionDate;
+        this.film = film;
+    }
+
     public Session(Integer ticketCost, Date date) {
         this.ticketCost = ticketCost;
         this.sessionDate = date;

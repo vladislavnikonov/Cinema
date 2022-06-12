@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="">
 <head>
     <meta charset="UTF-8">
     <title>Session searching</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script type="application/javascript">
         $(document).ready(function () {
             $("#searchField").keyup(function (e) {
-              $("#result").html("");
+              $("#result").html('');
               e.preventDefault();
 
-              let url = "/sessions/search"
+              let url = "/cinema/sessions/search"
                 let rq = $("#searchField").val();
 
               $.ajax({
@@ -24,13 +23,13 @@
                           $("#result").append('<div>' +
                               '<p><img src="data:image/png;base64,' + value.film.posterUrl + '" width="150" height="200"></p>' +
                               '<p>' + value.dateTime + '</p>' +
-                              '<p><a href="/sessions/' + value.id + '">' + value.film.name + '</a></p>' +
+                              '<p><a href="/cinema/sessions/' + value.id + '">' + value.film.name + '</a></p>' +
                               '</div>')
                       });
                   },
                   error: function (jqXhr, textStatus, errorMessage) {
                       console.log("Error", errorMessage);
-                      $("#result").append('<p class="error-msg">Not fount any sessions</p>');
+                      $("#result").append('<p class="error-msg">Not found any sessions</p>');
                   }
               });
             })

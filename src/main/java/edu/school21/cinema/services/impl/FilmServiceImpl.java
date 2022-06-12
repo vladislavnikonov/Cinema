@@ -9,10 +9,18 @@ import edu.school21.cinema.services.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +36,7 @@ public class FilmServiceImpl implements FilmService {
         this.filmRepository = filmRepository;
         this.imagesPath = imagesPath;
     }
-    //добавление фильма через savefilm
+
     @Override
     public void saveFilm(SaveFilm saveFilm) throws NotAllDataException, ObjectAlreadyExistsException {
         if (saveFilm == null || saveFilm.getTitle() == null
@@ -68,6 +76,7 @@ public class FilmServiceImpl implements FilmService {
         }
     }
 
+
     @Override
     public List<Film> findAll() {
         return filmRepository.findAll();
@@ -82,12 +91,36 @@ public class FilmServiceImpl implements FilmService {
         return true;
     }
 
+    @Override
+    public boolean create(String title, Integer releaseYear, Integer ageRegistration, String description, MultipartFile file) {
+        if (filmRepository.getByTitle(title) != null) {
+            return false;
+        } else {
+            String key = "";
+            if (file.getOriginalFilename() != null && !file.getOriginalFilename().isEmpty()) {
+                try {
+                    key = UUID.randomUUID().toString();
+                    upload(file.getBytes(), key, title);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Film film = new Film(title, releaseYear,
+                    ageRegistration, description, key);
+            filmRepository.save(film);
+            return true;
+        }
+    }
+
     private void upload(byte[] resource, String keyName, String title) throws IOException {
         if (!Files.exists(Paths.get(imagesPath + title))) {
             if (!Files.exists(Paths.get(imagesPath))) {
                 Files.createDirectories(Paths.get(imagesPath));
             }
-            //add upload photo to disk
+            Files.createDirectories(Paths.get(imagesPath + title));
         }
+        FileOutputStream newFile = new FileOutputStream(imagesPath + title + "/" + keyName);
+        newFile.write(resource);
+        newFile.close();
     }
 }

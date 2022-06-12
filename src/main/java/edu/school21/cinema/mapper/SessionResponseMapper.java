@@ -5,6 +5,7 @@ import edu.school21.cinema.models.Session;
 import edu.school21.cinema.models.response.FilmResponse;
 import edu.school21.cinema.models.response.SessionsResponse;
 import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+@Component
 public class SessionResponseMapper {
 
     private final String pathToImages;
