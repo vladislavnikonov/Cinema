@@ -39,7 +39,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public Session get(Long id) {
-        return sessionRepository.get(id);
+        return sessionRepository.getById(id);
     }
 
     @Override

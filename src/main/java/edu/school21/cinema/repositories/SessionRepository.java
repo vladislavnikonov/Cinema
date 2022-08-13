@@ -8,7 +8,7 @@ import java.util.List;
 public interface SessionRepository {
     List<Session> findAll();
 
-    Session get(Long id);
+    Session getById(Long id);
 
     void save(Session session);
 

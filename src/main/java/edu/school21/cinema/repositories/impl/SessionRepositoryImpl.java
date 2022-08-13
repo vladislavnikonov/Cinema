@@ -25,7 +25,7 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     @Override
     @Transactional
-    public Session get(Long id) {
+    public Session getById(Long id) {
         return entityManager.find(Session.class, id);
     }
 
@@ -50,7 +50,7 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     @Override
     public List<Session> searchByRequest(String request) {
-        request = request + "%";
+        request = "%" + request + "%";
         return entityManager.createQuery("select new Session(s.sessionId, s.ticketCost, s.sessionDate, f) " +
                 "from Session s join Film f on s.film.filmId = f.filmId " +
                 "where f.title like :request", Session.class)
