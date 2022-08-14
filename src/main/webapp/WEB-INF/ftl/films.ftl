@@ -17,19 +17,13 @@
         </tr>
 
         <#list films as film>
-<#--            <form name="film" action="/admin/panel/addPoster" method="post">-->
-                <tr>
-                    <td>${film.title}</td>
-                    <td>${film.releaseYear}</td>
-                    <td>${film.ageRegistration}</td>
-                    <td>${film.description}</td>
-                    <td>${film.poster}</td>
-<#--                    <td>-->
-<#--                        <input type="hidden" value="${film.title}" name="title">-->
-<#--                        <input type="submit" value="Add Poster"}/>-->
-<#--                    </td>-->
-                </tr>
-<#--            </form>-->
+            <tr>
+                <td>${film.title}</td>
+                <td>${film.releaseYear}</td>
+                <td>${film.ageRegistration}</td>
+                <td>${film.description}</td>
+                <td>${film.poster}</td>
+            </tr>
         </#list>
     </table>
 </div>

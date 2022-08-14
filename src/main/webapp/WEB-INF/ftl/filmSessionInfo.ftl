@@ -13,5 +13,7 @@
 <p> Hall: ${info.hall.serialNumber}<p/>
 <p> Seats number: ${info.hall.seatsNumber}<p/>
 <p> Ticket cost: ${info.ticketCost}<p/>
+<br>
+<a href="/cinema/film/${info.film.filmId}/chat">Open chat</a>
 </body>
 </html>

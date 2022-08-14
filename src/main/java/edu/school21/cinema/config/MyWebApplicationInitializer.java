@@ -11,7 +11,7 @@ public class MyWebApplicationInitializer extends AbstractAnnotationConfigDispatc
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringConfiguration.class};
+        return new Class[]{SpringConfiguration.class, WebSocketConfig.class};
     }
 
     @Override

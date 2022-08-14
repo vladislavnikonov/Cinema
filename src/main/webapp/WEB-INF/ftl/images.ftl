@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Delme</title>
+    <title>Image</title>
 </head>
 <body>
-
 </body>
 </html>

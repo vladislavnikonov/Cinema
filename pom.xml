@@ -45,24 +45,24 @@
       <artifactId>spring-data-jpa</artifactId>
       <version>2.6.3</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
       <version>5.3.19</version>
     </dependency>
-
     <dependency><!-- needed for freemarker FreeMarkerConfigurer stuff -->
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
       <version>${spring.version}</version>
     </dependency>
 
@@ -71,7 +71,6 @@
       <artifactId>hibernate-entitymanager</artifactId>
       <version>5.6.7.Final</version>
     </dependency>
-
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
@@ -98,21 +97,18 @@
       <version>2.3.1</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
     <!-- ex01-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
       <version>2.13.3</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
     <!-- ex01 -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.6</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
@@ -123,13 +119,24 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.13.3</version>
     </dependency>
-
-
-
     <dependency>
       <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
       <version>0.9.5.5</version>
+    </dependency>
+
+    <!--    ex02-->
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-websocket</artifactId>
+      <version>5.3.22</version>
+    </dependency>
+    <!--    ex02-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-messaging</artifactId>
+      <version>5.3.22</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
