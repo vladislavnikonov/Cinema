@@ -32,7 +32,6 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     @Transactional
     public void save(Session session) {
-//        entityManager.persist(session);
         entityManager.merge(session);
     }
 
@@ -44,7 +43,9 @@ public class SessionRepositoryImpl implements SessionRepository {
                     .setParameter("hallId", hallId)
                     .setParameter("sessionDate", sessionDate)
                     .getSingleResult();
-        } catch (NoResultException ignored) {}
+        } catch (NoResultException ignored) {
+            // TODO: 15.08.2022 добавить обработку исключения 
+        }
         return session;
     }
 
@@ -52,8 +53,8 @@ public class SessionRepositoryImpl implements SessionRepository {
     public List<Session> searchByRequest(String request) {
         request = "%" + request + "%";
         return entityManager.createQuery("select new Session(s.sessionId, s.ticketCost, s.sessionDate, f) " +
-                "from Session s join Film f on s.film.filmId = f.filmId " +
-                "where f.title like :request", Session.class)
+                        "from Session s join Film f on s.film.filmId = f.filmId " +
+                        "where f.title like :request", Session.class)
                 .setParameter("request", request)
                 .getResultList();
     }

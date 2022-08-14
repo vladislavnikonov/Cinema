@@ -5,6 +5,9 @@
     <title>Session</title>
 </head>
 <body>
+<#if error??>
+    <p>${error}</p>
+</#if>
 <h2>${info.film.title}</h2>
 <p><img src="data:image/jpg;base64,${info.film.poster}" alt="Avatar"></p>
 <p> Release year: ${info.film.releaseYear} </p>
