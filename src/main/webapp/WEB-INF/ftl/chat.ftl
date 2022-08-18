@@ -3,7 +3,7 @@
 <head>
     <style>
         <#setting classic_compatible=true>
-        <#--        <#include "css/chat.css">-->
+        <#include "css/chat.css">
     </style>
     <meta charset="UTF-8">
     <title>Chat</title>
@@ -48,24 +48,24 @@
             </div>
         </form>
     </div>
-    <div class="user-info">
-        <div id="authInfo" class="auth">
-            <h3>Users authentications</h3>
-        </div>
-        <div class="avatar">
-            <div id="userAvatars">
-                <h3>User's avatars</h3>
-            </div>
-            <form id="avatarForm" enctype="multipart/form-data" method="post" action="/images">
-                <p>
-                    <input type="file" name="avatar" id="avatar" multiple accept="image/*">
-                    <input type="hidden" name="filmId" id="formFilmId">
-                    <input type="hidden" name="userId" id="formUserId">
-                    <button id="uploadButton">Upload</button>
-                </p>
-            </form>
-        </div>
-    </div>
+<#--    <div class="user-info">-->
+<#--        <div id="authInfo" class="auth">-->
+<#--            <h3>Users authentications</h3>-->
+<#--        </div>-->
+<#--        <div class="avatar">-->
+<#--            <div id="userAvatars">-->
+<#--                <h3>User's avatars</h3>-->
+<#--            </div>-->
+<#--            <form id="avatarForm" enctype="multipart/form-data" method="post" action="/images">-->
+<#--                <p>-->
+<#--                    <input type="file" name="avatar" id="avatar" multiple accept="image/*">-->
+<#--                    <input type="hidden" name="filmId" id="formFilmId">-->
+<#--                    <input type="hidden" name="userId" id="formUserId">-->
+<#--                    <button id="uploadButton">Upload</button>-->
+<#--                </p>-->
+<#--            </form>-->
+<#--        </div>-->
+<#--    </div>-->
 </div>
 <#-- версии | 1.1.4 | 2.3.3 | 1.3 |-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
@@ -91,36 +91,38 @@
 
     $(document).ready(function () {
         console.log("log: ready")
-        document.getElementById("formFilmId").value = ('${film.filmId}');
+        <#--document.getElementById("formFilmId").value = ('${film.filmId}');-->
         let userCookie = getCookie("user");
-        // let userCookie = "vika"; //todo: получать куки
+
         if (!userCookie) {
-            console.log("log: readyIf")
-            // username = userCookie;
-            username = "vika";
-            // usernamePage.classList.add('hidden');
-            chatPage.classList.remove('hidden');
-            let socket = new SockJS('/ws');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, onConnected, onError);
-        // } else {
-        //     console.log("log: readyElse")
+            userCookie = "user" + uuidv4()
+            document.cookie = "user=" + userCookie
         }
+        username = userCookie;
+        // usernamePage.classList.add('hidden');
+        chatPage.classList.remove('hidden')
+        let socket = new SockJS('/ws')
+        stompClient = Stomp.over(socket)
+        stompClient.connect({}, onConnected, onError)
+
+        $(".primary").click(function() {
+            sendMessage(event)
+        })
     })
 
-    function connect(event) {
-        console.log("log: connect")
-        username = document.querySelector('#name').value.trim();
-        if (username) {
-            document.cookie = "user=" + username;
-            // usernamePage.classList.add('hidden');
-            chatPage.classList.remove('hidden');
-            let socket = new SockJS('/ws');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, onConnected, onError);
-        }
-        event.preventDefault();
-    }
+    // function connect(event) {
+    //     console.log("log: connect")
+    //     username = document.querySelector('#name').value.trim();
+    //     if (username) {
+    //         document.cookie = "user=" + username;
+    //         // usernamePage.classList.add('hidden');
+    //         chatPage.classList.remove('hidden');
+    //         let socket = new SockJS('/ws');
+    //         stompClient = Stomp.over(socket);
+    //         stompClient.connect({}, onConnected, onError);
+    //     }
+    //     event.preventDefault();
+    // }
 
     function onConnected() {
         console.log("log: onConnected")
@@ -168,22 +170,27 @@
         let message = JSON.parse(payload.body);
         let messageElement = document.createElement('li');
         if (message.type === 'JSON') {
+            console.log("log: json")
             messageElement.classList.add('event-message');
             message.message = message.user.login = 'joined';
             if (!getCookie("userId")) {
+                console.log("log: userId")
                 document.cookie = "userId" + message.user.id;
             }
             if (getCookie("userId") == message.user.id) {
+                console.log("log: formUserId")
                 document.getElementById("formUserId").valueOf(getCookie("userId"));
                 getAuthList();
                 getListOfAvatar();
             }
         } else if (message.type === 'LEAVE') {
+            console.log("log: leave")
             messageElement.classList.add('chat-message');
             message.message = message.user.login + ' left';
         } else {
+            console.log("log: chat-message")
             messageElement.classList.add('chat-message');
-            let avatarElement = document.createElement('1');
+            let avatarElement = document.createElement('i');
             let avatarText = document.createTextNode(message.user.login[0]);
             avatarElement.appendChild(avatarText);
             avatarElement.style['background-color'] = getAvatarColor(message.user.login);
@@ -193,6 +200,7 @@
             usernameElement.appendChild(usernameText);
             messageElement.appendChild(usernameElement);
         }
+        console.log("log: p")
         let textElement = document.createElement('p');
         let messageText = document.createTextNode(message.message);
         textElement.appendChild(messageText);
@@ -211,8 +219,8 @@
         return colors[index];
     }
 
-    //закончили на 194 строке
     function getCookie(name) {
+        console.log("log: getCookie")
         let matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
         ));
@@ -228,6 +236,20 @@
         console.log("log: getListOfAvatar")
         return undefined;
     }
+
+    function uuidv4() {
+        console.log("log: uuidv4")
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
+
+    // $(document).ready(function () {
+    //
+    //     // $( "#connect" ).click(function() { connect(); });
+    //     // $( "#disconnect" ).click(function() { disconnect(); });
+    //     $( ".primary" ).click(function() { sendMessage(event); });
+    // });
 </script>
 </body>
 </html>

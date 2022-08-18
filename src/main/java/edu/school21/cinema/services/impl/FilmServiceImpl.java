@@ -24,6 +24,7 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     public FilmServiceImpl(@Qualifier("filmRepositoryImpl") FilmRepository filmRepository,
                            @Qualifier("pathToImagesFolder") String imagesPath) {
+        // TODO: 18.08.2022 удалить квалифаер
         this.filmRepository = filmRepository;
         this.imagesPath = imagesPath;
     }

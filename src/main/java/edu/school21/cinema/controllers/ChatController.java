@@ -57,13 +57,12 @@ public class ChatController {
 
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
-    public Message addUser(@Payload Message message, SimpMessageHeaderAccessor headerAccessor) {
+    public void addUser(@Payload Message message, SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", message.getUser().getLogin());
-        Object clientIp = headerAccessor.getSessionAttributes().get("ip"); //test
-//        String clientIp = (String) headerAccessor.getSessionAttributes().get("ip");
-//        message.getUser().setId(authenticationService.authUser(message.getUser(), clientIp.toString()));
-        message.getUser().setId(1L); //test
-        return message;
+        Object clientIp = headerAccessor.getSessionAttributes().get("ip");
+        message.getUser().setId(authenticationService.authUser(message.getUser(), clientIp.toString()));
+//        message.getUser().setId(1L);
+//        return message;
     }
 
     //загрузка авторизаций

@@ -19,5 +19,7 @@ public class MessageService {
     }
 
     public void save(Message message) {
+        // TODO: 18.08.2022 обработать сообщение
+        messageRepository.save(message);
     }
 }
