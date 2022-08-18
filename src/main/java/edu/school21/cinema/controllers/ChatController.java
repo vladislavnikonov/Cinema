@@ -59,8 +59,10 @@ public class ChatController {
     @SendTo("/topic/public")
     public Message addUser(@Payload Message message, SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", message.getUser().getLogin());
-        String clientIp = (String) headerAccessor.getSessionAttributes().get("ip");
-        message.getUser().setId(authenticationService.authUser(message.getUser(), clientIp));
+        Object clientIp = headerAccessor.getSessionAttributes().get("ip"); //test
+//        String clientIp = (String) headerAccessor.getSessionAttributes().get("ip");
+//        message.getUser().setId(authenticationService.authUser(message.getUser(), clientIp.toString()));
+        message.getUser().setId(1L); //test
         return message;
     }
 

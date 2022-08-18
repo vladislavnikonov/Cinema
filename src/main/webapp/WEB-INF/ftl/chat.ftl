@@ -9,19 +9,19 @@
     <title>Chat</title>
 </head>
 <body>
-<div id="username-page">
-    <div class="username-page-container">
-        <h1 class="title">Type your username</h1>
-        <form id="usernameForm" name="usernameForm">
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="accent username-submit">Start Chatting</button>
-            </div>
-        </form>
-    </div>
-</div>
+<#--<div id="username-page">-->
+<#--    <div class="username-page-container">-->
+<#--        <h1 class="title">Type your username</h1>-->
+<#--        <form id="usernameForm" name="usernameForm">-->
+<#--            <div class="form-group">-->
+<#--                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control"/>-->
+<#--            </div>-->
+<#--            <div class="form-group">-->
+<#--                <button type="submit" class="accent username-submit">Start Chatting</button>-->
+<#--            </div>-->
+<#--        </form>-->
+<#--    </div>-->
+<#--</div>-->
 <div id="chat-page" class="hidden">
     <div class="chat-container">
         <div class="chat-header">
@@ -73,7 +73,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script>
     'use strict';
-    let usernamePage = document.querySelector('#username-page');
+    // let usernamePage = document.querySelector('#username-page');
     let chatPage = document.querySelector('#chat-page');
     let usernameForm = document.querySelector('#usernameForm');
     let messageForm = document.querySelector('#messageForm');
@@ -92,18 +92,19 @@
     $(document).ready(function () {
         console.log("log: ready")
         document.getElementById("formFilmId").value = ('${film.filmId}');
-        // let userCookie = getCookie("user");
-        let userCookie = "vika"; //todo: получать куки
-        if (userCookie) {
+        let userCookie = getCookie("user");
+        // let userCookie = "vika"; //todo: получать куки
+        if (!userCookie) {
             console.log("log: readyIf")
-            username = userCookie;
-            usernamePage.classList.add('hidden');
+            // username = userCookie;
+            username = "vika";
+            // usernamePage.classList.add('hidden');
             chatPage.classList.remove('hidden');
             let socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, onConnected, onError);
-        } else {
-            console.log("log: readyElse")
+        // } else {
+        //     console.log("log: readyElse")
         }
     })
 
@@ -112,7 +113,7 @@
         username = document.querySelector('#name').value.trim();
         if (username) {
             document.cookie = "user=" + username;
-            usernamePage.classList.add('hidden');
+            // usernamePage.classList.add('hidden');
             chatPage.classList.remove('hidden');
             let socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
@@ -211,9 +212,11 @@
     }
 
     //закончили на 194 строке
-    function getCookie(userId) {
-        console.log("log: getCookie")
-        return undefined;
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
     function getAuthList() {
