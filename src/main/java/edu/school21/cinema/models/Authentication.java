@@ -1,13 +1,32 @@
 package edu.school21.cinema.models;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "cinema_authentications")
 public class Authentication {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    private Date authenticationsDate;
+    @Column(name = "authentications_date")
+    private LocalDateTime authenticationsDate;
+    @Column(name = "ip_address")
     private String ipAddress;
+
+    public Authentication(User user, LocalDateTime authenticationsDate, String ipAddress) {
+        this.user = user;
+        this.authenticationsDate = authenticationsDate;
+        this.ipAddress = ipAddress;
+    }
+
+    public Authentication() {
+    }
 
     public Long getId() {
         return id;
@@ -25,11 +44,11 @@ public class Authentication {
         this.user = user;
     }
 
-    public Date getAuthenticationsDate() {
+    public LocalDateTime getAuthenticationsDate() {
         return authenticationsDate;
     }
 
-    public void setAuthenticationsDate(Date authenticationsDate) {
+    public void setAuthenticationsDate(LocalDateTime authenticationsDate) {
         this.authenticationsDate = authenticationsDate;
     }
 

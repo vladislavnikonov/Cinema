@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public class FilmRepositoryImpl implements FilmRepository {
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -40,7 +39,8 @@ public class FilmRepositoryImpl implements FilmRepository {
             film = entityManager.createQuery("from Film where title = :title", Film.class)
                     .setParameter("title", title)
                     .getSingleResult();
-        } catch (NoResultException ignored) {}
+        } catch (NoResultException ignored) {
+        }
         return film;
     }
 }

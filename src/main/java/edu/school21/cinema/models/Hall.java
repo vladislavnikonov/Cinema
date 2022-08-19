@@ -46,9 +46,4 @@ public class Hall {
     public void setSeatsNumber(Integer seatsNumber) {
         this.seatsNumber = seatsNumber;
     }
-
-    public Hall withId(Long id) {
-        this.hallId = id;
-        return this;
-    }
 }

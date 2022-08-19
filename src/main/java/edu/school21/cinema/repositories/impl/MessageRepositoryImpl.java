@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class MessageRepositoryImpl implements MessageRepository {
@@ -33,7 +34,18 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
-    public List<Message> getLastTwelveMessagesFromFilmId(Long filmId) {
-        return entityManager.createQuery("from Message where film.filmId =:filmId order filmId", Message.class).getResultList();
+    public List<Message> getLastTwelveMessagesByFilmId(Long filmId) {
+        return entityManager.createQuery("from Message where film.filmId =:filmId order by message.id desc", Message.class)
+                .setParameter("filmId", filmId)
+                .getResultList()
+                .stream()
+                .limit(20)
+                .sorted((o1, o2) -> {
+                    if (o1.getId() == o2.getId()) {
+                        return 0;
+                    }
+                    return (o1.getId() > o2.getId()) ? 1 : -1;
+                })
+                .collect(Collectors.toList());
     }
 }

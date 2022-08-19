@@ -78,9 +78,4 @@ public class Film {
     public void setPoster(String poster) {
         this.poster = poster;
     }
-
-    public Film withId(Long id) {
-        this.filmId = id;
-        return this;
-    }
 }

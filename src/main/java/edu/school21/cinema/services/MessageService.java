@@ -14,12 +14,11 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public List<Message> getLastTwelveMessagesFromFilmId(Long filmId) {
-        return null;
+    public List<Message> getLastTwelveMessagesByFilmId(Long filmId) {
+        return messageRepository.getLastTwelveMessagesByFilmId(filmId);
     }
 
     public void save(Message message) {
-        // TODO: 18.08.2022 обработать сообщение
         messageRepository.save(message);
     }
 }

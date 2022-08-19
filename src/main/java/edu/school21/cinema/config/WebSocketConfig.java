@@ -19,13 +19,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic");
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.setUserDestinationPrefix("/films");
+        registry.setApplicationDestinationPrefixes("/messages");
+        registry.setUserDestinationPrefix("/cinema/films"); //del
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws")
+        registry.addEndpoint("/websocket")
                 .addInterceptors(new IpHandshakeInterceptor())
                 .withSockJS();
     }

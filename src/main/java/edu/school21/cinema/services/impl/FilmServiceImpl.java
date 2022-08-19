@@ -55,6 +55,11 @@ public class FilmServiceImpl implements FilmService {
         }
     }
 
+    @Override
+    public Film get(Long id) {
+        return filmRepository.getById(id);
+    }
+
     private void upload(byte[] resource, String keyName) throws IOException {
         if (!Files.exists(Paths.get(imagesPath + DIR_POSTERS))) {
             if (!Files.exists(Paths.get(imagesPath))) {

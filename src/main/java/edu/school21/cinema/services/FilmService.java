@@ -10,4 +10,6 @@ public interface FilmService {
     List<Film> findAll();
 
     boolean create(String title, Integer releaseYear, Integer ageRegistration, String description, MultipartFile file);
+
+    Film get(Long id);
 }

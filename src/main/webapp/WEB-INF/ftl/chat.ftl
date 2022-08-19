@@ -80,7 +80,7 @@
     let messageInput = document.querySelector('#message');
     let messageArea = document.querySelector('#messageArea');
     let connectingElement = document.querySelector('.connecting');
-    let chatField = '${film.filmId}';
+    let chatField = ${film.filmId};
     let stompClient = null;
     let username = null;
 
@@ -95,13 +95,15 @@
         let userCookie = getCookie("user");
 
         if (!userCookie) {
+            console.log("log: !userCookie")
             userCookie = "user" + uuidv4()
-            document.cookie = "user=" + userCookie
+            document.cookie = "user=" + userCookie + "; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
+            alert(document.cookie)
         }
         username = userCookie;
         // usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden')
-        let socket = new SockJS('/ws')
+        let socket = new SockJS('/cinema/websocket')
         stompClient = Stomp.over(socket)
         stompClient.connect({}, onConnected, onError)
 
@@ -126,8 +128,8 @@
 
     function onConnected() {
         console.log("log: onConnected")
-        stompClient.subscribe('/topic/public', onMessageReceived);
-        stompClient.send("/app/chat.addUser",
+        stompClient.subscribe('/topic', onMessageReceived);
+        stompClient.send("/messages/addUser",
             {},
             JSON.stringify({
                 type: 'JOIN', user: {
@@ -151,15 +153,15 @@
             let chatMessage = {
                 message: messageInput.value,
                 type: 'CHAT',
-                file: {
+                film: {
                     filmId: chatField
                 },
                 user: {
-                    id: getCookie('userId'),
+                    // id: getCookie('userId'),
                     login: username
                 }
             };
-            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+            stompClient.send("/messages/sendMessage", {}, JSON.stringify(chatMessage));
             messageInput.value = '';
         }
         event.preventDefault();
@@ -169,7 +171,7 @@
         console.log("log: onMessageReceived")
         let message = JSON.parse(payload.body);
         let messageElement = document.createElement('li');
-        if (message.type === 'JSON') {
+        if (message.type === 'JOIN') {
             console.log("log: json")
             messageElement.classList.add('event-message');
             message.message = message.user.login = 'joined';

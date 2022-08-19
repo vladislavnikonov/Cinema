@@ -1,26 +1,28 @@
 package edu.school21.cinema.models;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.util.Objects;
 
+@Entity
+@Table(name = "cinema_messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "message")
     private String message;
-    private MessageType type;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    private Date messageDate;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "film_id", referencedColumnName = "id")
     private Film film;
 
     public enum MessageType {
         CHAT,
-        JOIN
-    }
-
-    public MessageType getType() {
-        return type;
-    }
-
-    public void setType(MessageType type) {
-        this.type = type;
+        JOIN,
+        LEAVE
     }
 
     public User getUser() {
@@ -39,14 +41,6 @@ public class Message {
         this.id = id;
     }
 
-    public Date getMessageDate() {
-        return messageDate;
-    }
-
-    public void setMessageDate(Date messageDate) {
-        this.messageDate = messageDate;
-    }
-
     public Film getFilm() {
         return film;
     }
@@ -61,5 +55,28 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message1 = (Message) o;
+        return Objects.equals(id, message1.id) && Objects.equals(message, message1.message) && Objects.equals(user, message1.user) && Objects.equals(film, message1.film);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, message, user, film);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", user=" + user +
+                ", film=" + film +
+                '}';
     }
 }
