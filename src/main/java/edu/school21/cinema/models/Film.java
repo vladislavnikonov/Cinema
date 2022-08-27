@@ -2,8 +2,8 @@ package edu.school21.cinema.models;
 
 import javax.persistence.*;
 
-@Entity(name = "Film")
-@Table(name = "cinema_films")
+@Entity
+@Table(name = "films")
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

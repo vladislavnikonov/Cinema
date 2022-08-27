@@ -3,7 +3,7 @@ package edu.school21.cinema.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cinema_halls")
+@Table(name = "halls")
 public class Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

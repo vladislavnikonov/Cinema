@@ -14,7 +14,7 @@ public class IpHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
 
-        attributes.put("ip", request.getRemoteAddress());
+        attributes.put("ip", request.getRemoteAddress().getAddress());
 
         return true;
     }

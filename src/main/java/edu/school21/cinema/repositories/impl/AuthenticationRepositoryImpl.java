@@ -21,7 +21,10 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
     }
 
     @Override
-    public List<Authentication> getAuthenticationByUserId(Integer userId) {
-        return null;
+    @Transactional
+    public List<Authentication> getAuthenticationByUserId(Long userId) {
+        return entityManager.createQuery("from Authentication where userId = :userId", Authentication.class)
+                .setParameter("title", userId)
+                .getResultList();
     }
 }

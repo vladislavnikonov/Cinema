@@ -11,7 +11,7 @@ create table if not exists films
     title            varchar(64) unique not null,
     release_year     integer            not null,
     age_restrictions integer            not null,
-    description      text,
+    description      text               not null,
     poster           text
 );
 
@@ -32,10 +32,11 @@ create table if not exists users
 
 create table if not exists authentications
 (
-    id                   bigserial primary key,
-    authentications_date timestamp with time zone,
-    ip_address           varchar(64),
-    user_id              bigserial references users (id)
+    id      bigserial primary key,
+    date    date not null,
+    time    time not null,
+    ip      varchar(64),
+    user_id bigserial references users (id)
 );
 
 create table if not exists messages
@@ -43,6 +44,6 @@ create table if not exists messages
     id      bigserial primary key,
     message text not null,
     user_id bigserial references users (id),
-    film_id bigserial references cinema_films (id)
+    film_id bigserial references films (id)
 );
 

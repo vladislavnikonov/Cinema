@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<#--<html lang="en">-->
 <head>
     <style>
         <#setting classic_compatible=true>
@@ -41,17 +41,75 @@
         <form id="messageForm" name="messageForm">
             <div class="form-group">
                 <div class="input-group clearfix">
-                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off"
+<#--                    <div>-->
+                        <input type="text" id="message" placeholder="Type a message..." autocomplete="off"
                            class="form-control"/>
-                    <button type="submit" class="primary">Send</button>
+<#--                    </div>-->
+<#--                    <div>-->
+                        <button type="submit" class="primary">Send</button>
+<#--                    </div>-->
                 </div>
             </div>
         </form>
     </div>
-<#--    <div class="user-info">-->
-<#--        <div id="authInfo" class="auth">-->
-<#--            <h3>Users authentications</h3>-->
+    <div class="user-info">
+        <div id="authInfo" class="auth">
+            <h3>Users authentications</h3>
+        </div>
+    </div>
+    <div class="tables">
+        <div class="left">
+            <table class="left_table">
+                <tr>
+                    <th>File name</th>
+                    <th>Size(KB)</th>
+                    <th>MIME</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+            </table>
+        </div>
+        <div class="right">
+            <table class="right_table">
+                <tr>
+                    <th>Data</th>
+                    <th>Time</th>
+                    <th>IP</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
 <#--        </div>-->
+
 <#--        <div class="avatar">-->
 <#--            <div id="userAvatars">-->
 <#--                <h3>User's avatars</h3>-->
@@ -65,7 +123,7 @@
 <#--                </p>-->
 <#--            </form>-->
 <#--        </div>-->
-<#--    </div>-->
+    </div>
 </div>
 <#-- версии | 1.1.4 | 2.3.3 | 1.3 |-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
@@ -84,10 +142,10 @@
     let stompClient = null;
     let username = null;
 
-    let colors = [
-        '#2196F3', '#32c787', '#000C04', '#ff5652',
-        '#ffc107', '#ff65af', '#345ff0', "#53f3cc"
-    ];
+    // let colors = [
+    //     '#2196F3', '#32c787', '#000C04', '#ff5652',
+    //     '#ffc107', '#ff65af', '#345ff0', "#53f3cc"
+    // ];
 
     $(document).ready(function () {
         console.log("log: ready")
@@ -98,7 +156,7 @@
             console.log("log: !userCookie")
             userCookie = "user" + uuidv4()
             document.cookie = "user=" + userCookie + "; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
-            alert(document.cookie)
+            alert("Welcome: " + document.cookie)
         }
         username = userCookie;
         // usernamePage.classList.add('hidden');
@@ -138,6 +196,7 @@
             })
         )
         connectingElement.classList.add('hidden');
+        getAuthList(username);
     }
 
     function onError(error) {
@@ -171,54 +230,39 @@
         console.log("log: onMessageReceived")
         let message = JSON.parse(payload.body);
         let messageElement = document.createElement('li');
-        if (message.type === 'JOIN') {
-            console.log("log: json")
-            messageElement.classList.add('event-message');
-            message.message = message.user.login = 'joined';
-            if (!getCookie("userId")) {
-                console.log("log: userId")
-                document.cookie = "userId" + message.user.id;
-            }
-            if (getCookie("userId") == message.user.id) {
-                console.log("log: formUserId")
-                document.getElementById("formUserId").valueOf(getCookie("userId"));
-                getAuthList();
-                getListOfAvatar();
-            }
-        } else if (message.type === 'LEAVE') {
-            console.log("log: leave")
-            messageElement.classList.add('chat-message');
-            message.message = message.user.login + ' left';
-        } else {
+        // if (message.type === 'JOIN') {
+        //     console.log("log: json")
+        //     messageElement.classList.add('event-message');
+        //     message.message = message.user.login = 'joined';
+        //     if (!getCookie("userId")) {
+        //         console.log("log: userId")
+        //         document.cookie = "userId" + message.user.id;
+        //     }
+        //     if (getCookie("userId") == message.user.id) {
+        //         console.log("log: formUserId")
+        //         document.getElementById("formUserId").valueOf(getCookie("userId"));
+        //         getAuthList();
+        //         getListOfAvatar();
+        //     }
+        // } else if (message.type === 'LEAVE') {
+        //     console.log("log: leave")
+        //     messageElement.classList.add('chat-message');
+        //     message.message = message.user.login + ' left';
+        // } else {
             console.log("log: chat-message")
             messageElement.classList.add('chat-message');
-            let avatarElement = document.createElement('i');
-            let avatarText = document.createTextNode(message.user.login[0]);
-            avatarElement.appendChild(avatarText);
-            avatarElement.style['background-color'] = getAvatarColor(message.user.login);
-            messageElement.appendChild(avatarElement);
             let usernameElement = document.createElement('span');
             let usernameText = document.createTextNode(message.user.login);
             usernameElement.appendChild(usernameText);
             messageElement.appendChild(usernameElement);
-        }
+        // }
         console.log("log: p")
         let textElement = document.createElement('p');
         let messageText = document.createTextNode(message.message);
         textElement.appendChild(messageText);
         messageElement.appendChild(textElement);
-        messageArea.appendChild(messageText);
+        messageArea.appendChild(messageElement);
         messageArea.scrollTop = messageArea.scrollHeight;
-    }
-
-    function getAvatarColor(messageSender) {
-        console.log("log: getAvatarColor")
-        let hash = 0;
-        for (let i = 0; i < messageSender.length; i++) {
-            hash = 31 * hash + messageSender.charCodeAt(i);
-        }
-        let index = Math.abs(hash % colors.length);
-        return colors[index];
     }
 
     function getCookie(name) {
@@ -229,9 +273,19 @@
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
-    function getAuthList() {
-        console.log("log: getAuthList")
-        return undefined;
+    // function getAuthList() {
+    //     console.log("log: getAuthList")
+    //     return undefined;
+    // }
+
+    async function getAuthList(username) {
+        let pUrl = "/cinema/userInfo/auth/" + posterUrl
+        let response = await fetch(pUrl)
+        if (response.ok) {
+            return await response.text()
+        } else {
+            console.log("error")
+        }
     }
 
     function getListOfAvatar() {

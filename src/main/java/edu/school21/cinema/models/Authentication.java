@@ -1,27 +1,31 @@
 package edu.school21.cinema.models;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Objects;
+
+import java.sql.Time;
+import java.util.Date;
 
 @Entity
-@Table(name = "cinema_authentications")
+@Table(name = "authentications")
 public class Authentication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "date")
+    private Date date;
+    @Column(name = "time")
+    private Time time;
+    @Column(name = "ip")
+    private String ipAddress;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    @Column(name = "authentications_date")
-    private LocalDateTime authenticationsDate;
-    @Column(name = "ip_address")
-    private String ipAddress;
 
-    public Authentication(User user, LocalDateTime authenticationsDate, String ipAddress) {
+    public Authentication(User user, Date date, Time time, String ipAddress) {
         this.user = user;
-        this.authenticationsDate = authenticationsDate;
+        this.date = date;
+        this.time = time;
         this.ipAddress = ipAddress;
     }
 
@@ -44,12 +48,20 @@ public class Authentication {
         this.user = user;
     }
 
-    public LocalDateTime getAuthenticationsDate() {
-        return authenticationsDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAuthenticationsDate(LocalDateTime authenticationsDate) {
-        this.authenticationsDate = authenticationsDate;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 
     public String getIpAddress() {
@@ -58,28 +70,5 @@ public class Authentication {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Authentication that = (Authentication) o;
-        return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(authenticationsDate, that.authenticationsDate) && Objects.equals(ipAddress, that.ipAddress);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, authenticationsDate, ipAddress);
-    }
-
-    @Override
-    public String toString() {
-        return "Authentication{" +
-                "id=" + id +
-                ", user=" + user +
-                ", authenticationsDate=" + authenticationsDate +
-                ", ipAddress='" + ipAddress + '\'' +
-                '}';
     }
 }

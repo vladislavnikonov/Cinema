@@ -7,5 +7,5 @@ import java.util.List;
 public interface AuthenticationRepository {
     void save(Authentication authentication);
 
-    List<Authentication> getAuthenticationByUserId(Integer userId);
+    List<Authentication> getAuthenticationByUserId(Long userId);
 }
